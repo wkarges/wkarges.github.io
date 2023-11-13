@@ -1,1 +1,53 @@
-<h1>Hello World</h1>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width" />
+  <title>PowerBI Report</title>
+</head>
+<body>
+<!--
+  <div id="captionArea">
+    <h1>Power BI Embed test</h1>
+  </div>
+-->
+  <div id="embedContainer">
+    <iframe id="ifrTile" width="100%" height="100%"></iframe>
+  </div>
+  <script>
+    (function () {
+      // Please change these values
+      var urlParams = new URLSearchParams(window.location.search);
+  	  var txtAccessToken = urlParams.get('accessToken');
+  	  var txtEmbedUrl = urlParams.get('embedUrl');
+  	  var txtEmbedReportId = urlParams.get('embedReportId');
+ 
+      var iframe = document.getElementById('ifrTile');
+      iframe.src = txtEmbedUrl;
+      iframe.onload = function () {
+        var msgJson = {
+          "method": "POST",
+          "url": "/report/load",
+          "headers": {
+            "x-sdk-type": "js",
+            "x-sdk-version": "2.3.2",
+            "uid": "87oes"
+          },
+          "body": {
+            "settings": {
+              "filterPaneEnabled": true,
+              "navContentPaneEnabled": true
+            },
+            "type": "report",
+            "tokenType": 1,
+            "accessToken": txtAccessToken,
+            "embedUrl": txtEmbedUrl,
+            "id": txtEmbedReportId,
+            "permissions": 7,
+            "uniqueId": "87oes"
+          }
+        };
+        iframe.contentWindow.postMessage(msgJson, "*");
+      };
+    }());
+  </script>
+</body>
+</html>
